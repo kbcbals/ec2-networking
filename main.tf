@@ -73,10 +73,12 @@ resource "aws_instance" "inst1" {
   ]
 
   user_data = <<-EOF
-    #!/bin/bash
-    export CIRCLECI_TOKEN=a4f962734f21b52bb377555a4f503e966194483f
-    echo test of user_data | sudo tee /tmp/user_data.log
-    curl -u ${CIRCLECI_TOKEN}: -X POST --header "Content-Type: application/json" -d '{ 
+    #!/bin/bash    
+    sudo apt-get update
+    sudo apt-get install -y curl        
+    sudo apt install -y gettext-base
+    sudo apt install -y moreutils    
+    sudo curl -u $"{CIRCLECI_TOKEN}": -X POST --header "Content-Type: application/json" -d '{ 
       "branch": "develop", 
       "parameters": { 
       "destroy_test_dev": true, 
@@ -85,10 +87,6 @@ resource "aws_instance" "inst1" {
     }' https://circleci.com/api/v2/project/gh/kbcbals/circleci-lambda/pipeline
 
   EOF
-
-
-
-
 }
 
 /* resource "aws_instance" "inst2" {
